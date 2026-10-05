@@ -1,0 +1,139 @@
+:root {
+      --ink: #0d1733;
+      --paper: #eef2f8;
+      --mute: #9fb0d0;
+      --accent: hsl(210 40% 72%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "Yu Gothic UI", "Meiryo", sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .info {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      font-size: 15px;
+      line-height: 1.8;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, .7);
+    }
+
+    .info b {
+      display: block;
+      font-size: 24px;
+      letter-spacing: .04em;
+    }
+
+    .dock {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(820px, calc(100% - 32px));
+      transform: translateX(-50%);
+    }
+
+    .themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .chip {
+      padding: 6px 14px;
+      border: 2px solid var(--mute);
+      border-radius: 999px;
+      background: rgba(13, 23, 51, .8);
+      color: var(--paper);
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .chip[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #06102a;
+      font-weight: 700;
+    }
+
+    .lab {
+      align-self: center;
+      color: var(--mute);
+      font-size: 14px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+    }
+
+    .bar {
+      display: flex;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(13, 23, 51, .8);
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 14px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: rgba(238, 242, 248, .12);
+      color: var(--paper);
+      font: inherit;
+      font-size: 20px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    input::placeholder {
+      color: var(--mute);
+    }
+
+    button {
+      padding: 10px 18px;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      background: var(--accent);
+      color: #06102a;
+      cursor: pointer;
+      font: inherit;
+      font-size: 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    button.sub {
+      border-color: var(--mute);
+      background: transparent;
+      color: var(--paper);
+      font-weight: 400;
+    }
+
+    button:focus-visible {
+      outline: 3px solid var(--paper);
+      outline-offset: 2px;
+    }
