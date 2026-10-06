@@ -9,8 +9,17 @@ function step() {
     lerp(current.c[0], target.c[0], amount),
     lerp(current.c[1], target.c[1], amount)
   ];
-  current.ft = target.ft;
-  current.pw = target.pw;
+  if (current.ft !== target.ft) {
+    // 形が変わったときは、場所も倍率も一気に切り替える
+    current.c = [target.c[0], target.c[1]];
+    current.ft = target.ft;
+    current.pw = target.pw;
+  } else if (current.ft === 5) {
+    // 燃える船どうしの切り替えは、拡大率を対数でなめらかに動かす
+    current.pw = Math.exp(lerp(Math.log(current.pw), Math.log(target.pw), amount));
+  } else {
+    current.pw = target.pw;
+  }
   for (const key of ['hb', 'hr', 'sat', 'val', 'spread', 'rot', 'iter']) {
     current[key] = lerp(current[key], target[key], amount);
   }

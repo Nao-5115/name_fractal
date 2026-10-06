@@ -31,19 +31,27 @@ const fragmentShaderSource = `precision highp float;
     float n = 0., root = 0.;
     bool esc = false;
 
-    if (ft < 3.5) {
+    // ft = 5：本物の燃える船。画面の1点が c になり、z は 0 から始める。
+    // このとき c は「見ている中心」、pw は「画面の縦の半分の長さ（小さいほど拡大）」。
+    bool ship = ft > 4.5;
+    if (ft < 3.5 || ship) {
       float dd = (ft > .5 && ft < 1.5) ? pw : 2.;
+      vec2 cc = c;
+      if (ship) {
+        cc = c + vec2(uv.x, -uv.y) * (pw / 1.5);
+        z = vec2(0.);
+      }
       for (int i = 0; i < 300; i++) {
         if (float(i) >= iter) break;
-        if (ft > 1.5 && ft < 2.5) z = abs(z);
-        if (ft > 2.5) z.y = -z.y;
+        if ((ft > 1.5 && ft < 2.5) || ship) z = abs(z);
+        if (ft > 2.5 && ft < 3.5) z.y = -z.y;
         if (dd > 2.5) {
           float r = length(z), a = atan(z.y, z.x) * dd;
           z = pow(r, dd) * vec2(cos(a), sin(a));
         } else {
           z = vec2(z.x * z.x - z.y * z.y, 2. * z.x * z.y);
         }
-        z += c;
+        z += cc;
         if (dot(z, z) > 256.) {
           esc = true;
           n = float(i);
@@ -78,7 +86,7 @@ const fragmentShaderSource = `precision highp float;
     float q = iter;
 
     if (esc) {
-      if (ft > 3.5) {
+      if (ft > 3.5 && ft < 4.5) {
         float h = hb + hr * (root / pw);
         col = hsv(h, sat, val * (.7 + .3 * mod(root, 2.))) * (1. - .75 * smoothstep(0., 40., n));
       } else {
@@ -92,8 +100,8 @@ const fragmentShaderSource = `precision highp float;
     }
 
     #ifdef HASD
-      if (ft < 3.5) {
-        bool rough = ft > 1.5;
+      if (ft < 3.5 || ft > 4.5) {
+        bool rough = ft > 1.5 && ft < 3.5;
         float f = smoothstep(rough ? 1. : 2., rough ? 8. : 12., fwidth(q));
         col = mix(col, hsv(hb + hr * gi, sat * .9, val * .5), f);
       }
