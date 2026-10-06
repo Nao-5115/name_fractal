@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1733">
+  <title>フラクタルのしくみ | 名前フラクタル</title>
+  <link rel="stylesheet" href="css/explanation.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="name-fractal.html"><span class="brand-mark" aria-hidden="true">✳</span> 名前フラクタル</a>
+    <a class="back-link" href="name-fractal.html">作品をつくる <span aria-hidden="true">→</span></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">HOW IT WORKS</p>
+      <h1>名前から、<br><span>くり返しの宇宙</span>へ。</h1>
+      <p class="hero-copy">フラクタルは、シンプルなルールを何度もくり返すことで生まれる、細やかな模様です。このページでは、このアプリの模様ができるまでを見ていきます。</p>
+      <a class="text-link" href="#steps">できるまでを見てみる <span aria-hidden="true">↓</span></a>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div><div class="orbit-core"></div>
+        <span class="star star-one">✦</span><span class="star star-two">✳</span><span class="star star-three">·</span>
+      </div>
+    </section>
+
+    <section class="section intro" id="steps">
+      <div class="section-heading">
+        <p class="eyebrow">THE RECIPE</p>
+        <h2>模様ができるまで</h2>
+        <p>画面の小さな点ひとつひとつについて計算し、その結果を色に変えています。</p>
+      </div>
+      <div class="steps">
+        <article class="step-card">
+          <span class="step-number">01</span>
+          <div class="step-visual points" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <h3>画面を点に分ける</h3>
+          <p>画面の各ピクセルを、複素数平面上の座標に対応させます。複素数は「実部」と「虚部」を持つ数で、平面上の位置を表せます。</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">02</span>
+          <div class="step-visual equation" aria-label="z の二乗に c を足す計算">z² + c</div>
+          <h3>同じ計算をくり返す</h3>
+          <p>ジュリア系では、各点を出発点 z として <code>z ← z² + c</code> を何度も計算します。c は模様の形を左右する定数です。</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">03</span>
+          <div class="step-visual color-field" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <h3>計算の結果を色にする</h3>
+          <p>値が大きくなって領域の外へ出るまでの回数などを色に置き換えます。境界の近くでは回数が少し違うだけでも、豊かな模様が現れます。</p>
+        </article>
+      </div>
+      <p class="note"><strong>フラクタルらしさ：</strong>拡大しても、複雑な境界や似た形が見つかります。単純な計算の反復が、細部の豊かさにつながります。</p>
+    </section>
+
+    <section class="section name-section">
+      <div class="name-copy">
+        <p class="eyebrow">YOUR NAME, YOUR FRACTAL</p>
+        <h2>名前は、模様の<br>「レシピ」になる。</h2>
+        <p>名前の文字コードから、毎回同じ条件を作るための数値を取り出します。そこから形の種類、色、回転、計算回数などを決めます。ふりがなを入力すると、一部の条件にも使われます。</p>
+        <p class="small-copy">文字をそのまま絵にしているのではなく、名前ごとに異なる計算条件を決めています。同じ名前なら、同じ種類のレシピを再現できます。</p>
+      </div>
+      <div class="recipe" aria-label="名前からフラクタルができる流れ">
+        <div class="recipe-item"><span class="recipe-icon">あ</span><span>名前・ふりがな</span></div>
+        <span class="recipe-arrow" aria-hidden="true">↓</span>
+        <div class="recipe-item"><span class="recipe-icon numbers">01</span><span>数値に変換</span></div>
+        <span class="recipe-arrow" aria-hidden="true">↓</span>
+        <div class="recipe-item"><span class="recipe-icon colors">✦</span><span>形・色・回転を決定</span></div>
+        <span class="recipe-arrow" aria-hidden="true">↓</span>
+        <div class="recipe-result" aria-hidden="true"><span>✳</span><span>✦</span><span>✳</span></div>
+        <strong>あなただけの模様</strong>
+      </div>
+    </section>
+
+    <section class="section types-section">
+      <div class="section-heading">
+        <p class="eyebrow">SHAPES IN THIS APP</p>
+        <h2>形ごとに、ルールが違う</h2>
+        <p>「形」から選べる模様には、計算のしかたが少しずつ違う仲間がいます。</p>
+      </div>
+      <div class="type-grid">
+        <article class="type-card"><span class="type-symbol">◎</span><div><h3>ジュリア</h3><p><code>z² + c</code>を反復する代表的なフラクタル。cの値で形が大きく変わります。</p></div></article>
+        <article class="type-card"><span class="type-symbol flower">✿</span><div><h3>べき乗</h3><p>二乗の代わりに、より高いべき乗を使います。枝や対称性の変化を楽しめます。</p></div></article>
+        <article class="type-card"><span class="type-symbol ship">⌁</span><div><h3>燃える船</h3><p>座標の絶対値を使う反復で、船のような形を描きます。このアプリでは名前に応じて船の一部を選び、拡大して表示します。</p></div></article>
+        <article class="type-card"><span class="type-symbol">◈</span><div><h3>船ジュリア</h3><p>ジュリア系の反復に絶対値の変形を加えた形。燃える船を思わせる模様が現れます。</p></div></article>
+        <article class="type-card"><span class="type-symbol tri">△</span><div><h3>トリコーン</h3><p>複素数の虚部を反転させる変形を加えた反復で、三つの突起を持つような模様が現れます。</p></div></article>
+        <article class="type-card"><span class="type-symbol newton">✺</span><div><h3>ニュートン</h3><p>方程式の解へ近づく計算を反復します。どの解にたどり着くかを色で示しています。</p></div></article>
+      </div>
+      <p class="note">※「燃える船」は通常のジュリア系とは計算の見方が異なります。画面上の各点を c として、z = 0 から反復し、船の形を探しています。</p>
+    </section>
+
+    <section class="closing">
+      <p class="eyebrow">READY TO EXPLORE?</p>
+      <h2>次は、あなたの名前で<br>試してみよう。</h2>
+      <p>名前や形、色を変えると、計算のレシピも模様も変わります。</p>
+      <a class="primary-link" href="name-fractal.html">作品をつくる <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer><a href="name-fractal.html">名前フラクタル</a><span>ひとつのルールから、無限のかたちへ。</span></footer>
+</body>
+</html>

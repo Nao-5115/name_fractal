@@ -42,6 +42,32 @@
       letter-spacing: .04em;
     }
 
+    .learn-link {
+      position: fixed;
+      top: 22px;
+      right: 24px;
+      z-index: 2;
+      padding: 9px 14px;
+      border: 1px solid rgba(159, 176, 208, .55);
+      border-radius: 999px;
+      background: rgba(13, 23, 51, .78);
+      color: var(--paper);
+      font-size: 14px;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+    }
+
+    .learn-link:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #06102a;
+    }
+
+    .learn-link:focus-visible {
+      outline: 3px solid var(--paper);
+      outline-offset: 3px;
+    }
+
     .dock {
       position: fixed;
       bottom: 24px;
@@ -136,4 +162,10 @@
     button:focus-visible {
       outline: 3px solid var(--paper);
       outline-offset: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .info { top: 14px; left: 16px; font-size: 13px; }
+      .info b { font-size: 19px; }
+      .learn-link { top: 14px; right: 14px; font-size: 12px; }
     }
