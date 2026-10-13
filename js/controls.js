@@ -63,7 +63,14 @@ document.getElementById('save').onclick = async () => {
   const savedAA = aa;
   aa = 2;
   draw();
-  const artwork = composeArtworkForSave(canvas, state.name || nameInput.value, state.kana || kanaInput.value);
+  const actualShape = Object.values(SHAPES).find(item => item.t === target.ft)?.label || SHAPES[shape]?.label;
+  const artwork = composeArtworkForSave(
+    canvas,
+    state.name || nameInput.value,
+    state.kana || kanaInput.value,
+    actualShape,
+    THEMES[theme]?.label
+  );
   aa = savedAA;
   const blob = await new Promise(resolve => artwork.toBlob(resolve, 'image/png'));
   canvas.width = originalWidth;

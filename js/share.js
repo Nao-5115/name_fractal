@@ -157,7 +157,8 @@ document.getElementById('vsave').onclick = () => {
   canvas.height = 1500;
   aa = 1;                       // スマホでは重くなりすぎないよう、解像度を上げるだけにする
   draw();
-  const artwork = composeArtworkForSave(canvas, state.name, state.kana);
+  const actualShape = Object.values(SHAPES).find(item => item.t === target.ft)?.label || SHAPES[shape]?.label;
+  const artwork = composeArtworkForSave(canvas, state.name, state.kana, actualShape, THEMES[theme]?.label);
   const dataUrl = artwork.toDataURL('image/png');
   aa = savedAA;
   canvas.width = originalWidth;
