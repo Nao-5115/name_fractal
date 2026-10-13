@@ -63,8 +63,9 @@ document.getElementById('save').onclick = async () => {
   const savedAA = aa;
   aa = 2;
   draw();
+  const artwork = composeArtworkForSave(canvas, state.name || nameInput.value, state.kana || kanaInput.value);
   aa = savedAA;
-  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  const blob = await new Promise(resolve => artwork.toBlob(resolve, 'image/png'));
   canvas.width = originalWidth;
   canvas.height = originalHeight;
 
@@ -105,6 +106,8 @@ if (shareButton) {
     const currentShape = Object.entries(SHAPES).find(([, item]) => item.t === current.ft)?.[0];
     const driftSpeed = (current.ft === 2 || current.ft === 3) ? 0.00001 : 0.00003;
     const snapshot = {
+      name: state.name,
+      kana: state.kana,
       c: current.c,
       spread: current.spread,
       rot: current.rot + (performance.now() - animationStart) * driftSpeed,
@@ -182,8 +185,9 @@ if (!isSharePage) {
 if (isSharePage && sharedArtwork) {
   theme = sharedArtwork.theme;
   shape = sharedArtwork.shape;
-  nameInput.value = '作品';
-  state = { name: '作品', kana: '', demo: false };
+  nameInput.value = sharedArtwork.name || '作品';
+  kanaInput.value = sharedArtwork.kana || '';
+  state = { name: nameInput.value, kana: kanaInput.value, demo: false };
   target = {
     c: sharedArtwork.c,
     spread: sharedArtwork.spread,
