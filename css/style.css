@@ -1,171 +1,250 @@
 :root {
-      --ink: #0d1733;
-      --paper: #eef2f8;
-      --mute: #9fb0d0;
-      --accent: hsl(210 40% 72%);
-    }
+  --ink: #0d1733;
+  --paper: #eef2f8;
+  --mute: #9fb0d0;
+  --accent: hsl(210 40% 72%);
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    html,
-    body {
-      margin: 0;
-      height: 100%;
-      overflow: hidden;
-      background: var(--ink);
-      color: var(--paper);
-      font-family: "Yu Gothic UI", "Meiryo", sans-serif;
-    }
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Yu Gothic UI", "Meiryo", sans-serif;
+}
 
-    canvas {
-      position: fixed;
-      inset: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+canvas {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
-    .info {
-      position: fixed;
-      top: 20px;
-      left: 24px;
-      font-size: 15px;
-      line-height: 1.8;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, .7);
-    }
+.info {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  font-size: 15px;
+  line-height: 1.8;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .7);
+}
 
-    .info b {
-      display: block;
-      font-size: 24px;
-      letter-spacing: .04em;
-    }
+.info b {
+  display: block;
+  font-size: 24px;
+  letter-spacing: .04em;
+}
 
-    .learn-link {
-      position: fixed;
-      top: 22px;
-      right: 24px;
-      z-index: 2;
-      padding: 9px 14px;
-      border: 1px solid rgba(159, 176, 208, .55);
-      border-radius: 999px;
-      background: rgba(13, 23, 51, .78);
-      color: var(--paper);
-      font-size: 14px;
-      text-decoration: none;
-      backdrop-filter: blur(8px);
-    }
+.dock {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(900px, calc(100% - 32px));
+  transform: translateX(-50%);
+}
 
-    .learn-link:hover {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #06102a;
-    }
+.themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
 
-    .learn-link:focus-visible {
-      outline: 3px solid var(--paper);
-      outline-offset: 3px;
-    }
+.chip {
+  padding: 6px 14px;
+  border: 2px solid var(--mute);
+  border-radius: 999px;
+  background: rgba(13, 23, 51, .8);
+  color: var(--paper);
+  font-size: 15px;
+  font-weight: 400;
+}
 
-    .dock {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: min(820px, calc(100% - 32px));
-      transform: translateX(-50%);
-    }
+.chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #06102a;
+  font-weight: 700;
+}
 
-    .themes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-    }
+.lab {
+  align-self: center;
+  color: var(--mute);
+  font-size: 14px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+}
 
-    .chip {
-      padding: 6px 14px;
-      border: 2px solid var(--mute);
-      border-radius: 999px;
-      background: rgba(13, 23, 51, .8);
-      color: var(--paper);
-      font-size: 15px;
-      font-weight: 400;
-    }
+.bar {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(13, 23, 51, .8);
+}
 
-    .chip[aria-pressed="true"] {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #06102a;
-      font-weight: 700;
-    }
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: rgba(238, 242, 248, .12);
+  color: var(--paper);
+  font: inherit;
+  font-size: 20px;
+}
 
-    .lab {
-      align-self: center;
-      color: var(--mute);
-      font-size: 14px;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
-    }
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
 
-    .bar {
-      display: flex;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      background: rgba(13, 23, 51, .8);
-    }
+input::placeholder {
+  color: var(--mute);
+}
 
-    input {
-      flex: 1;
-      min-width: 0;
-      padding: 10px 14px;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      background: rgba(238, 242, 248, .12);
-      color: var(--paper);
-      font: inherit;
-      font-size: 20px;
-    }
+button {
+  padding: 10px 18px;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #06102a;
+  cursor: pointer;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
 
-    input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
+button.sub {
+  border-color: var(--mute);
+  background: transparent;
+  color: var(--paper);
+  font-weight: 400;
+}
 
-    input::placeholder {
-      color: var(--mute);
-    }
+button:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 2px;
+}
 
-    button {
-      padding: 10px 18px;
-      border: 2px solid var(--accent);
-      border-radius: 10px;
-      background: var(--accent);
-      color: #06102a;
-      cursor: pointer;
-      font: inherit;
-      font-size: 18px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
+/* ---- QRコードや保存用画像を出すウィンドウ ---- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 16, 42, .86);
+}
 
-    button.sub {
-      border-color: var(--mute);
-      background: transparent;
-      color: var(--paper);
-      font-weight: 400;
-    }
+.modal[hidden] {
+  display: none;
+}
 
-    button:focus-visible {
-      outline: 3px solid var(--paper);
-      outline-offset: 2px;
-    }
+.card {
+  max-width: min(94vw, 560px);
+  max-height: 94vh;
+  padding: 24px;
+  overflow: auto;
+  border-radius: 20px;
+  background: var(--paper);
+  color: #06102a;
+  text-align: center;
+}
 
-    @media (max-width: 640px) {
-      .info { top: 14px; left: 16px; font-size: 13px; }
-      .info b { font-size: 19px; }
-      .learn-link { top: 14px; right: 14px; font-size: 12px; }
-    }
+.card h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+}
+
+.card p {
+  margin: 12px 0 0;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.card .small {
+  font-size: 12px;
+  color: #4a5877;
+  word-break: break-all;
+}
+
+.card .qr {
+  width: min(58vmin, 400px);
+  margin: 0 auto;
+  background: #fff;
+}
+
+.card .qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.card img {
+  display: block;
+  max-width: 100%;
+  max-height: 58vh;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.card .row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.card button.sub {
+  border-color: #06102a;
+  color: #06102a;
+}
+
+.card a.btn {
+  padding: 10px 18px;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #06102a;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ---- スマホ表示（QRコードから開いたとき） ---- */
+.vbar {
+  display: none;
+}
+
+body.viewer .dock,
+body.viewer #prm {
+  display: none;
+}
+
+body.viewer .vbar {
+  position: fixed;
+  right: 0;
+  bottom: 28px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+body.viewer .vbar button {
+  padding: 14px 28px;
+  font-size: 20px;
+}

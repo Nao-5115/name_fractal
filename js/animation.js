@@ -29,6 +29,7 @@ function step() {
 //   scale：画面の物理ピクセルに対する描画解像度の割合（0.35〜1）
 //   aa   ：1 = ふつう、2 = 1ピクセルを4点で塗って平均（ギザギザが減る。重い）
 let scale = 0.75, aa = 1;
+let frozenRotation = null;
 const pixelRatio = () => Math.min(window.devicePixelRatio || 1, 2);
 
 function draw() {
@@ -42,7 +43,10 @@ function draw() {
   gl.uniform1f(uniforms.spread, current.spread);
   // ゆっくり回る速さ。燃える船・トリコーンはノイズがちらつきやすいので遅め
   const driftSpeed = (current.ft === 2 || current.ft === 3) ? 0.00001 : 0.00003;
-  gl.uniform1f(uniforms.rotation, current.rot + (performance.now() - animationStart) * driftSpeed);
+  const rotation = frozenRotation === null
+    ? current.rot + (performance.now() - animationStart) * driftSpeed
+    : frozenRotation;
+  gl.uniform1f(uniforms.rotation, rotation);
   gl.uniform1f(uniforms.iterations, current.iter);
   gl.uniform1f(uniforms.fractalType, current.ft);
   gl.uniform1f(uniforms.power, current.pw);
