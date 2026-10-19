@@ -7,7 +7,7 @@ function step() {
   const amount = 0.06;
   current.c = [
     lerp(current.c[0], target.c[0], amount),
-    lerp(current.c[1], target.c[1], amount)
+    lerp(current.c[1], target.c[1], amount),
   ];
   if (current.ft !== target.ft) {
     // 形が変わったときは、場所も倍率も一気に切り替える
@@ -16,11 +16,13 @@ function step() {
     current.pw = target.pw;
   } else if (current.ft === 5) {
     // 燃える船どうしの切り替えは、拡大率を対数でなめらかに動かす
-    current.pw = Math.exp(lerp(Math.log(current.pw), Math.log(target.pw), amount));
+    current.pw = Math.exp(
+      lerp(Math.log(current.pw), Math.log(target.pw), amount),
+    );
   } else {
     current.pw = target.pw;
   }
-  for (const key of ['hb', 'hr', 'sat', 'val', 'spread', 'rot', 'iter']) {
+  for (const key of ["hb", "hr", "sat", "val", "spread", "rot", "iter"]) {
     current[key] = lerp(current[key], target[key], amount);
   }
 }
@@ -28,8 +30,8 @@ function step() {
 // 画質の状態
 //   scale：画面の物理ピクセルに対する描画解像度の割合（0.35〜1）
 //   aa   ：1 = ふつう、2 = 1ピクセルを4点で塗って平均（ギザギザが減る。重い）
-let scale = 0.75, aa = 1;
-let frozenRotation = null;
+let scale = 0.75,
+  aa = 1;
 const pixelRatio = () => Math.min(window.devicePixelRatio || 1, 2);
 
 function draw() {
@@ -42,10 +44,9 @@ function draw() {
   gl.uniform1f(uniforms.value, current.val);
   gl.uniform1f(uniforms.spread, current.spread);
   // ゆっくり回る速さ。燃える船・トリコーンはノイズがちらつきやすいので遅め
-  const driftSpeed = (current.ft === 2 || current.ft === 3) ? 0.00001 : 0.00003;
-  const rotation = frozenRotation === null
-    ? current.rot + (performance.now() - animationStart) * driftSpeed
-    : frozenRotation;
+  const driftSpeed = current.ft === 2 || current.ft === 3 ? 0.00001 : 0.00003;
+  const rotation =
+    current.rot + (performance.now() - animationStart) * driftSpeed;
   gl.uniform1f(uniforms.rotation, rotation);
   gl.uniform1f(uniforms.iterations, current.iter);
   gl.uniform1f(uniforms.fractalType, current.ft);
@@ -54,8 +55,12 @@ function draw() {
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
 
-let accumulatedTime = 0, frameCount = 0, lastFrame = performance.now();
-let cycle = 0, holdUntil = 0, aaBlockedUntil = 0;
+let accumulatedTime = 0,
+  frameCount = 0,
+  lastFrame = performance.now();
+let cycle = 0,
+  holdUntil = 0,
+  aaBlockedUntil = 0;
 
 function resize() {
   const ratio = pixelRatio() * scale;
@@ -63,7 +68,7 @@ function resize() {
   canvas.height = Math.max(2, Math.floor(innerHeight * ratio));
 }
 
-addEventListener('resize', resize);
+addEventListener("resize", resize);
 resize();
 
 function frame(now) {

@@ -1,48 +1,58 @@
 <!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>名前フラクタル</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <canvas id="cv"></canvas>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>名前フラクタル</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <canvas id="cv"></canvas>
 
-  <div class="info">
-    <b id="ttl"></b>
-    <div id="prm"></div>
-  </div>
-
-  <div class="dock">
-    <div class="themes" id="shapes"><span class="lab">形</span></div>
-    <div class="themes" id="themes"><span class="lab">色</span></div>
-    <div class="bar">
-      <input id="name" maxlength="16" placeholder="名前（漢字OK）" autocomplete="off">
-      <input id="kana" maxlength="32" placeholder="ふりがな（なくてもOK）" autocomplete="off">
-      <button id="go">つくる</button>
-      <button id="save" class="sub">画像を保存</button>
-      <button id="share" class="sub">QRコード</button>
+    <div class="info">
+      <b id="ttl"></b>
+      <div id="prm"></div>
     </div>
-  </div>
 
-  <!-- スマホで開いたとき（QRコードから来たとき）だけ出るボタン -->
-  <div class="vbar">
-    <button id="vsave">画像をつくる</button>
-  </div>
+    <div class="dock">
+      <div class="themes" id="shapes"><span class="lab">形</span></div>
+      <div class="themes" id="themes"><span class="lab">色</span></div>
+      <div class="bar">
+        <input
+          id="name"
+          maxlength="16"
+          placeholder="名前（漢字OK）"
+          autocomplete="off"
+        />
+        <input
+          id="kana"
+          maxlength="32"
+          placeholder="ふりがな（なくてもOK）"
+          autocomplete="off"
+        />
+        <button id="go">つくる</button>
+        <button id="share" class="sub">画像を保存</button>
+      </div>
+    </div>
 
-  <!-- QRコードや保存用の画像を出すウィンドウ -->
-  <div class="modal" id="modal" hidden>
-    <div class="card" id="modalBody"></div>
-  </div>
+    <!-- スマホで開いたとき（QRコードから来たとき）だけ出るボタン -->
+    <div class="vbar">
+      <button id="vsave">画像をつくる</button>
+      <a class="link-btn" href="explanation.html">フラクタルとは？</a>
+    </div>
 
-  <script src="js/webgl-renderer.js"></script>
-  <script src="js/name-parameters.js"></script>
-  <script src="js/presets-ui.js"></script>
-  <script src="js/animation.js"></script>
-  <script src="js/export-artwork.js"></script>
-  <script src="js/controls.js"></script>
-  <script src="js/qrcode.js"></script>
-  <script src="js/share.js"></script>
-</body>
+    <!-- QRコードや保存用の画像を出すウィンドウ -->
+    <div class="modal" id="modal" hidden>
+      <div class="card" id="modalBody"></div>
+    </div>
+
+    <script src="js/webgl-renderer.js"></script>
+    <script src="js/name-parameters.js"></script>
+    <script src="js/presets-ui.js"></script>
+    <script src="js/animation.js"></script>
+    <script src="js/export-artwork.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/qrcode.js"></script>
+    <script src="js/share.js"></script>
+  </body>
 </html>

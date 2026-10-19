@@ -33,13 +33,13 @@ canvas {
   left: 24px;
   font-size: 15px;
   line-height: 1.8;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, .7);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
 .info b {
   display: block;
   font-size: 24px;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
 }
 
 .dock {
@@ -64,7 +64,7 @@ canvas {
   padding: 6px 14px;
   border: 2px solid var(--mute);
   border-radius: 999px;
-  background: rgba(13, 23, 51, .8);
+  background: rgba(13, 23, 51, 0.8);
   color: var(--paper);
   font-size: 15px;
   font-weight: 400;
@@ -81,7 +81,7 @@ canvas {
   align-self: center;
   color: var(--mute);
   font-size: 14px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .bar {
@@ -89,7 +89,7 @@ canvas {
   gap: 10px;
   padding: 12px;
   border-radius: 16px;
-  background: rgba(13, 23, 51, .8);
+  background: rgba(13, 23, 51, 0.8);
 }
 
 input {
@@ -98,7 +98,7 @@ input {
   padding: 10px 14px;
   border: 2px solid transparent;
   border-radius: 10px;
-  background: rgba(238, 242, 248, .12);
+  background: rgba(238, 242, 248, 0.12);
   color: var(--paper);
   font: inherit;
   font-size: 20px;
@@ -147,7 +147,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(6, 16, 42, .86);
+  background: rgba(6, 16, 42, 0.86);
 }
 
 .modal[hidden] {
@@ -241,10 +241,27 @@ body.viewer .vbar {
   bottom: 28px;
   left: 0;
   display: flex;
+  flex-wrap: wrap; /* 追加：狭い画面では下に折り返す */
+  gap: 12px; /* 追加 */
   justify-content: center;
+  padding: 0 12px; /* 追加 */
 }
 
 body.viewer .vbar button {
-  padding: 14px 28px;
-  font-size: 20px;
+  padding: 14px 22px; /* 28px → 22px に */
+  font-size: 18px; /* 20px → 18px に */
+}
+
+/* 追加：リンクを「枠だけのボタン」っぽく見せる */
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 18px;
+  border: 2px solid var(--mute);
+  border-radius: 10px;
+  background: rgba(13, 23, 51, 0.8);
+  color: var(--paper);
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
 }
