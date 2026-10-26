@@ -1,23 +1,25 @@
 // -------------------------------------------------------------------------
 // WebGL の準備
 // -------------------------------------------------------------------------
-const canvas = document.getElementById('cv');
-const gl = canvas.getContext('webgl', {
+const canvas = document.getElementById("cv");
+const gl = canvas.getContext("webgl", {
   preserveDrawingBuffer: true,
-  antialias: false
+  antialias: false,
 });
 
 if (!gl) {
-  document.getElementById('ttl').textContent = 'このブラウザではWebGLが使えません';
-  throw new Error('no webgl');
+  document.getElementById("ttl").textContent =
+    "このブラウザではWebGLが使えません";
+  throw new Error("no webgl");
 }
 
 // z → z² + c をピクセルごとに繰り返すフラグメントシェーダー。
 // shade() が1点ぶんの色を返し、aa=2 のときは1ピクセルを4点で塗って平均する（ギザギザを減らす）。
-const vertexShaderSource = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const vertexShaderSource =
+  "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
 const fragmentShaderSource = `precision highp float;
   uniform vec2 res, c;
-  uniform float hb, hr, sat, val, spread, rot, iter, ft, pw, aa;
+    uniform float hb, hr, sat, val, spread, rot, iter, ft, pw, aa, bar;
 
   vec3 hsv(float h, float s, float v) {
     vec3 k = clamp(abs(mod(h * 6. + vec3(0., 4., 2.), 6.) - 3.) - 1., 0., 1.);
@@ -25,9 +27,12 @@ const fragmentShaderSource = `precision highp float;
   }
 
   vec3 shade(vec2 frag) {
-    vec2 uv = (frag - .5 * res) / min(res.x, res.y) * 3.0;
+    // 下のバー（bar ピクセル）をのぞいた「見える範囲」の真ん中を、フラクタルの中心にする
+    vec2 center = vec2(.5 * res.x, .5 * (res.y + bar));
+    vec2 uv = (frag - center) / min(res.x, res.y - bar) * 3.0;
+    float fit = 1.2; // 1より大きいほど小さく映る
     float s = sin(rot), k = cos(rot);
-    vec2 z = mat2(k, -s, s, k) * uv;
+    vec2 z = mat2(k, -s, s, k) * uv * fit;
     float n = 0., root = 0.;
     bool esc = false;
 
@@ -135,34 +140,42 @@ function createShader(type, source) {
 }
 
 const program = gl.createProgram();
-const hasDerivatives = !!gl.getExtension('OES_standard_derivatives');
+const hasDerivatives = !!gl.getExtension("OES_standard_derivatives");
 const derivativePrefix = hasDerivatives
-  ? '#extension GL_OES_standard_derivatives : enable\n#define HASD 1\n'
-  : '';
+  ? "#extension GL_OES_standard_derivatives : enable\n#define HASD 1\n"
+  : "";
 
 gl.attachShader(program, createShader(gl.VERTEX_SHADER, vertexShaderSource));
-gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, derivativePrefix + fragmentShaderSource));
+gl.attachShader(
+  program,
+  createShader(gl.FRAGMENT_SHADER, derivativePrefix + fragmentShaderSource),
+);
 gl.linkProgram(program);
 gl.useProgram(program);
 
 gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-const positionLocation = gl.getAttribLocation(program, 'p');
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array([-1, -1, 3, -1, -1, 3]),
+  gl.STATIC_DRAW,
+);
+const positionLocation = gl.getAttribLocation(program, "p");
 gl.enableVertexAttribArray(positionLocation);
 gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-const uniform = name => gl.getUniformLocation(program, name);
+const uniform = (name) => gl.getUniformLocation(program, name);
 const uniforms = {
-  resolution: uniform('res'),
-  constant: uniform('c'),
-  hueBase: uniform('hb'),
-  hueRange: uniform('hr'),
-  saturation: uniform('sat'),
-  value: uniform('val'),
-  spread: uniform('spread'),
-  rotation: uniform('rot'),
-  iterations: uniform('iter'),
-  fractalType: uniform('ft'),
-  power: uniform('pw'),
-  antialias: uniform('aa')
+  resolution: uniform("res"),
+  constant: uniform("c"),
+  hueBase: uniform("hb"),
+  hueRange: uniform("hr"),
+  saturation: uniform("sat"),
+  value: uniform("val"),
+  spread: uniform("spread"),
+  rotation: uniform("rot"),
+  iterations: uniform("iter"),
+  fractalType: uniform("ft"),
+  power: uniform("pw"),
+  antialias: uniform("aa"),
+  barHeight: uniform("bar"),
 };

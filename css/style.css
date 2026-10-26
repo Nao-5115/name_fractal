@@ -60,14 +60,17 @@ canvas {
   position: fixed;
   top: 0;
   left: 0;
-  min-width: calc(470 * var(--u));
   max-width: 100%;
-  padding: calc(24 * var(--u)) calc(45 * var(--u)) calc(35 * var(--u))
-    calc(26 * var(--u));
-  background: rgba(28, 57, 88, 0.85); /* bg/panel を 85% */
+  padding: calc(24 * var(--u)) 0 0 calc(26 * var(--u));
+  /* 背景はなし。文字のまわりに3pxの枠線をつけて、どんな色の上でも読めるようにする。
+     枠線は文字の外側に出したいので、paint-order で「枠線 → 文字」の順に描き、
+     太さは見せたい3pxの2倍にしている（半分は文字の下に隠れる）。 */
+  -webkit-text-stroke: max(4px, calc(6 * var(--u))) var(--ink);
+  paint-order: stroke fill;
   font-size: max(14px, calc(28 * var(--u)));
   font-weight: 500;
   line-height: 1.43;
+  pointer-events: none; /* 後ろのフラクタルを邪魔しない */
 }
 
 .info b {

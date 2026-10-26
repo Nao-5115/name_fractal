@@ -1,6 +1,7 @@
 // -------------------------------------------------------------------------
 // 描画と、フレームレートに応じた画質の自動調整
 // -------------------------------------------------------------------------
+const dockElement = document.querySelector(".dock");
 const lerp = (start, end, amount) => start + (end - start) * amount;
 
 function step() {
@@ -52,6 +53,11 @@ function draw() {
   gl.uniform1f(uniforms.fractalType, current.ft);
   gl.uniform1f(uniforms.power, current.pw);
   gl.uniform1f(uniforms.antialias, aa);
+  // 下のバーの高さ（描画ピクセルでの値）。スマホ表示ではバーが隠れているので 0 になる
+  gl.uniform1f(
+    uniforms.barHeight,
+    dockElement.offsetHeight * (canvas.height / innerHeight),
+  );
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
 
