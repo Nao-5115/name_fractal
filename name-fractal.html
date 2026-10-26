@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>名前フラクタル</title>
+    <link rel="stylesheet" href="css/fonts.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -14,25 +15,48 @@
       <div id="prm"></div>
     </div>
 
+    <!-- 下のバー。形・色の候補（#shapes / #themes）は presets-ui.js が中に入れる -->
     <div class="dock">
-      <div class="themes" id="shapes"><span class="lab">形</span></div>
-      <div class="themes" id="themes"><span class="lab">色</span></div>
-      <div class="bar">
-        <input
-          id="name"
-          maxlength="16"
-          placeholder="名前（漢字OK）"
-          autocomplete="off"
-        />
-        <input
-          id="kana"
-          maxlength="32"
-          placeholder="ふりがな（なくてもOK）"
-          autocomplete="off"
-        />
-        <button id="go">つくる</button>
-        <button id="share" class="sub">画像を保存</button>
+      <div class="menu">
+        <button
+          id="shapeBtn"
+          class="menu-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="shapes"
+        >
+          別の形を試す
+        </button>
+        <div class="options" id="shapes" hidden></div>
       </div>
+      <div class="menu">
+        <button
+          id="themeBtn"
+          class="menu-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="themes"
+        >
+          別の色を試す
+        </button>
+        <div class="options" id="themes" hidden></div>
+      </div>
+      <input
+        id="name"
+        maxlength="16"
+        placeholder="名前"
+        aria-label="名前"
+        autocomplete="off"
+      />
+      <input
+        id="kana"
+        maxlength="32"
+        placeholder="ふりがな（なくてもOK）"
+        aria-label="ふりがな"
+        autocomplete="off"
+      />
+      <button id="go" type="button">作る</button>
+      <button id="share" class="sub" type="button">画像を保存</button>
     </div>
 
     <!-- スマホで開いたとき（QRコードから来たとき）だけ出るボタン -->
@@ -54,5 +78,6 @@
     <script src="js/controls.js"></script>
     <script src="js/qrcode.js"></script>
     <script src="js/share.js"></script>
+    <script src="js/menu.js"></script>
   </body>
 </html>

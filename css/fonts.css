@@ -1,0 +1,18 @@
+/* Noto Sans JP
+   ネットにつながらなくても表示できるよう、fonts/ に入れたファイルを読み込む。
+   ファイル名が1文字でも違うと読み込めないので、fonts/ の中の名前と合わせること。 */
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("../fonts/NotoSansJP-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans JP";
+  src: url("../fonts/NotoSansJP-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

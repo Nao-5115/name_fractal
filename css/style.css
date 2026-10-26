@@ -1,8 +1,35 @@
+/* =========================================================
+   名前フラクタル：作品ページの見た目
+   Figma の pc-1-home / pc-2-shape / pc-3-color / pc-4-qr
+   （1920×1080）の数値をもとにしている。
+
+   考え方：Figma の「1px」を --u（画面に合わせて伸び縮みする1px）に置きかえる。
+   例）Figma で 30px の文字 → calc(30 * var(--u))
+   こうすると、どのPCの画面でも Figma と同じ比率で表示される。
+   ========================================================= */
+
 :root {
-  --ink: #0d1733;
-  --paper: #eef2f8;
-  --mute: #9fb0d0;
-  --accent: hsl(210 40% 72%);
+  /* 色（Figma のカラースタイルと同じ名前） */
+  --ink: #0b1a2b; /* bg/base */
+  --panel: #1c3958; /* bg/panel */
+  --paper: #e9eef2; /* text/main */
+  --mute: #8da2b8; /* text/sub */
+  --accent: #3892d5; /* accent */
+  --white: #ffffff;
+
+  /* Figma の1px にあたる長さ（1920×1080 のとき 1px） */
+  --u: min(calc(100vw / 1920), calc(100vh / 1080));
+}
+
+/* QRコードから開いたスマホ画面：スマホ用デザインができるまで、固定の小さめサイズにしておく */
+body.viewer {
+  --u: 0.5px;
+}
+
+body {
+  --fs: max(16px, calc(30 * var(--u))); /* ボタン・入力欄の文字 */
+  --h: max(44px, calc(66 * var(--u))); /* ボタン・入力欄の高さ */
+  --dock-h: max(calc(110 * var(--u)), calc(var(--h) + 24px)); /* 下のバー */
 }
 
 * {
@@ -15,8 +42,9 @@ body {
   height: 100%;
   overflow: hidden;
   background: var(--ink);
-  color: var(--paper);
-  font-family: "Yu Gothic UI", "Meiryo", sans-serif;
+  color: var(--white);
+  font-family: "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
+  font-weight: 500;
 }
 
 canvas {
@@ -27,81 +55,79 @@ canvas {
   height: 100%;
 }
 
+/* ---- 左上の情報パネル ---- */
 .info {
   position: fixed;
-  top: 20px;
-  left: 24px;
-  font-size: 15px;
-  line-height: 1.8;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  min-width: calc(470 * var(--u));
+  max-width: 100%;
+  padding: calc(24 * var(--u)) calc(45 * var(--u)) calc(35 * var(--u))
+    calc(26 * var(--u));
+  background: rgba(28, 57, 88, 0.85); /* bg/panel を 85% */
+  font-size: max(14px, calc(28 * var(--u)));
+  font-weight: 500;
+  line-height: 1.43;
 }
 
 .info b {
   display: block;
-  font-size: 24px;
-  letter-spacing: 0.04em;
+  font-size: max(20px, calc(50 * var(--u)));
+  font-weight: 900;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
 }
 
-.dock {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: min(900px, calc(100% - 32px));
-  transform: translateX(-50%);
-}
-
-.themes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-.chip {
-  padding: 6px 14px;
-  border: 2px solid var(--mute);
-  border-radius: 999px;
-  background: rgba(13, 23, 51, 0.8);
-  color: var(--paper);
-  font-size: 15px;
-  font-weight: 400;
-}
-
-.chip[aria-pressed="true"] {
-  border-color: var(--accent);
+/* ---- ボタン（ぜんぶのもとになる見た目） ---- */
+button {
+  min-height: var(--h);
+  padding: 0 calc(25 * var(--u));
+  border: 3px solid var(--accent);
+  border-radius: 0;
   background: var(--accent);
-  color: #06102a;
-  font-weight: 700;
-}
-
-.lab {
-  align-self: center;
-  color: var(--mute);
-  font-size: 14px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-}
-
-.bar {
-  display: flex;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(13, 23, 51, 0.8);
-}
-
-input {
-  flex: 1;
-  min-width: 0;
-  padding: 10px 14px;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  background: rgba(238, 242, 248, 0.12);
-  color: var(--paper);
+  color: var(--white);
+  cursor: pointer;
   font: inherit;
-  font-size: 20px;
+  font-size: var(--fs);
+  font-weight: 900;
+  line-height: 1.37;
+  white-space: nowrap;
+}
+
+button:hover {
+  filter: brightness(1.12);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* 枠線だけ系のボタン（画像を保存・とじる など） */
+button.sub {
+  padding: 0 calc(30 * var(--u));
+  border-color: var(--mute);
+  background: var(--panel);
+}
+
+/* ---- 入力欄 ---- */
+input {
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--h);
+  padding: 0 calc(22 * var(--u));
+  border: 3px solid var(--mute);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--white); /* 入力した文字は白 */
+  font: inherit;
+  font-size: var(--fs);
+  font-weight: 900;
+}
+
+input::placeholder {
+  color: var(--mute);
+  opacity: 1;
 }
 
 input:focus {
@@ -109,36 +135,94 @@ input:focus {
   border-color: var(--accent);
 }
 
-input::placeholder {
-  color: var(--mute);
+/* ---- 下のバー ---- */
+.dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--u));
+  height: var(--dock-h);
+  padding: 0 calc(40 * var(--u)) 0 calc(26 * var(--u));
+  background: var(--ink);
 }
 
-button {
-  padding: 10px 18px;
-  border: 2px solid var(--accent);
-  border-radius: 10px;
-  background: var(--accent);
-  color: #06102a;
-  cursor: pointer;
-  font: inherit;
-  font-size: 18px;
-  font-weight: 700;
-  white-space: nowrap;
+.dock button {
+  flex: none;
+  height: var(--h);
 }
 
-button.sub {
+/* 「別の形を試す」「別の色を試す」 */
+.menu {
+  position: relative;
+  flex: none;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  padding: 0 calc(16 * var(--u)) 0 calc(19 * var(--u));
   border-color: var(--mute);
-  background: transparent;
-  color: var(--paper);
-  font-weight: 400;
+  background: var(--panel);
 }
 
-button:focus-visible {
-  outline: 3px solid var(--paper);
-  outline-offset: 2px;
+/* 三角（閉じているとき▼、開いているとき▲） */
+.menu-btn::after {
+  content: "";
+  flex: none;
+  width: calc(35 * var(--u));
+  height: calc(33 * var(--u));
+  background: var(--paper);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
-/* ---- QRコードや保存用画像を出すウィンドウ ---- */
+.menu-btn[aria-expanded="true"]::after {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+/* ---- 形・色の選択パネル（ボタンの真上に開く） ---- */
+.options {
+  position: absolute;
+  bottom: calc(
+    100% + (var(--dock-h) - var(--h)) / 2
+  ); /* バーの上の端にぴったりつける */
+  left: calc(-33 * var(--u));
+  display: flex;
+  flex-direction: column;
+  gap: calc(20 * var(--u));
+  width: calc(318 * var(--u));
+  max-height: calc(100vh - var(--dock-h) - 16px);
+  padding: calc(20 * var(--u)) calc(33 * var(--u)) calc(12 * var(--u));
+  overflow-y: auto;
+  background: var(--panel);
+}
+
+.options[hidden] {
+  display: none;
+}
+
+.chip {
+  flex: none;
+  width: 100%;
+  padding: 0;
+  border-color: var(--mute);
+  background: var(--panel);
+}
+
+.chip:hover {
+  border-color: var(--paper);
+  filter: none;
+}
+
+/* いま選んでいるもの */
+.chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* ---- ウィンドウ（QRコードなど） ---- */
 .modal {
   position: fixed;
   inset: 0;
@@ -147,7 +231,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(6, 16, 42, 0.86);
+  background: rgba(11, 26, 43, 0.7); /* bg/base を 70% */
 }
 
 .modal[hidden] {
@@ -155,43 +239,30 @@ button:focus-visible {
 }
 
 .card {
-  max-width: min(94vw, 560px);
-  max-height: 94vh;
-  padding: 24px;
+  position: relative;
+  width: min(calc(792 * var(--u)), 100%);
+  max-height: 100%;
+  padding: calc(59 * var(--u)) calc(40 * var(--u)) calc(32 * var(--u));
   overflow: auto;
-  border-radius: 20px;
-  background: var(--paper);
-  color: #06102a;
+  border: 1px solid var(--mute);
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--white);
   text-align: center;
 }
 
 .card h2 {
-  margin: 0 0 14px;
-  font-size: 24px;
+  margin: 0 0 calc(38 * var(--u));
+  font-size: max(20px, calc(45 * var(--u)));
+  font-weight: 900;
+  line-height: 1.36;
 }
 
 .card p {
-  margin: 12px 0 0;
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.card .small {
-  font-size: 12px;
-  color: #4a5877;
-  word-break: break-all;
-}
-
-.card .qr {
-  width: min(58vmin, 400px);
-  margin: 0 auto;
-  background: #fff;
-}
-
-.card .qr svg {
-  display: block;
-  width: 100%;
-  height: auto;
+  margin: 0;
+  font-size: var(--fs);
+  font-weight: 900;
+  line-height: 1.37;
 }
 
 .card img {
@@ -202,30 +273,79 @@ button:focus-visible {
   border-radius: 8px;
 }
 
-.card .row {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
+.card img + p {
   margin-top: 16px;
 }
 
-.card button.sub {
-  border-color: #06102a;
-  color: #06102a;
+.card .row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: calc(32 * var(--u));
 }
 
-.card a.btn {
-  padding: 10px 18px;
-  border: 2px solid var(--accent);
-  border-radius: 10px;
-  background: var(--accent);
-  color: #06102a;
-  font-size: 18px;
-  font-weight: 700;
-  text-decoration: none;
+/* QRコード：まわりの明るい余白がないと読み取れないので、padding で余白をとる */
+.card .qr {
+  width: calc(550 * var(--u));
+  max-width: 100%;
+  margin: 0 auto calc(31 * var(--u));
+  padding: calc(35 * var(--u));
+  border-radius: 3px;
+  background: var(--paper);
 }
 
-/* ---- スマホ表示（QRコードから開いたとき） ---- */
+.card .qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* QRの下地（もとは白）を、まわりの余白と同じ色にそろえる */
+.card .qr svg rect {
+  fill: var(--paper);
+}
+
+.card .qr-message {
+  padding: 0 calc(86 * var(--u));
+}
+
+.card .qr-message + .qr-message {
+  margin-top: calc(41 * var(--u));
+}
+
+/* ✕ボタン */
+.card .close {
+  position: absolute;
+  top: 0;
+  right: calc(10 * var(--u));
+  width: max(44px, calc(52 * var(--u)));
+  height: max(44px, calc(52 * var(--u)));
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.card .close::before,
+.card .close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(26px, calc(64 * var(--u)));
+  height: max(2px, calc(3 * var(--u)));
+  background: var(--paper);
+}
+
+.card .close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.card .close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ---- スマホ表示（QRコードから開いたとき）：スマホ用デザインができるまでの仮のもの ---- */
 .vbar {
   display: none;
 }
@@ -241,27 +361,28 @@ body.viewer .vbar {
   bottom: 28px;
   left: 0;
   display: flex;
-  flex-wrap: wrap; /* 追加：狭い画面では下に折り返す */
-  gap: 12px; /* 追加 */
+  flex-wrap: wrap;
+  gap: 12px;
   justify-content: center;
-  padding: 0 12px; /* 追加 */
+  padding: 0 12px;
 }
 
 body.viewer .vbar button {
-  padding: 14px 22px; /* 28px → 22px に */
-  font-size: 18px; /* 20px → 18px に */
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 18px;
 }
 
-/* 追加：リンクを「枠だけのボタン」っぽく見せる */
 .link-btn {
   display: inline-flex;
   align-items: center;
-  padding: 14px 18px;
-  border: 2px solid var(--mute);
-  border-radius: 10px;
-  background: rgba(13, 23, 51, 0.8);
-  color: var(--paper);
+  min-height: 48px;
+  padding: 0 18px;
+  border: 3px solid var(--mute);
+  background: var(--panel);
+  color: var(--white);
   font-size: 16px;
+  font-weight: 900;
   text-decoration: none;
   white-space: nowrap;
 }

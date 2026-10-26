@@ -109,10 +109,7 @@ modal.addEventListener("click", (event) => {
 // ---- パソコン側：QRコードを出す ----
 function showQr() {
   if (state.demo) {
-    openModal([
-      el("p", "先に名前を入れて「つくる」を押してね"),
-      el("div", "", "row"),
-    ]);
+    openModal([el("p", "作る"), el("div", "", "row")]);
     modalBody.lastChild.appendChild(closeButton());
     return;
   }
@@ -136,21 +133,28 @@ function showQr() {
   qr.make();
 
   const box = el("div", "", "qr");
-  box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 4, scalable: true });
-  const row = el("div", "", "row");
-  row.appendChild(closeButton());
+  // 余白は CSS の padding でとるので、QR自体の margin は 0
+  box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+
+  const close = el("button", "", "close");
+  close.type = "button";
+  close.setAttribute("aria-label", "とじる");
+  close.onclick = closeModal;
+
+  const message = el(
+    "p",
+    "「" + state.name + "」のフラクタルがスマホに表示されるよ",
+    "qr-message",
+  );
+  const hint = el("p", "", "qr-message");
+  hint.append(
+    "表示されたら、",
+    document.createElement("br"),
+    "「画像を保存」を押して保存しよう！",
+  );
 
   openModal(
-    [
-      el("h2", "スマホで読みとって、画像を保存しよう📱"),
-      box,
-      el(
-        "p",
-        "「" +
-          state.name +
-          "」のフラクタルがスマホに出るよ。「画像をつくる」ボタンで保存できるよ！",
-      ),
-    ],
+    [close, el("h2", "QRコードを読み取って保存"), box, message, hint],
     120000,
   );
 }
@@ -173,7 +177,8 @@ function showPhoto(dataUrl) {
   ]);
 }
 
-document.getElementById("vsave").onclick = () => {
+async () => {
+  await document.fonts.load('900 40px "Noto Sans JP"');
   const originalWidth = canvas.width,
     originalHeight = canvas.height,
     savedAA = aa;
