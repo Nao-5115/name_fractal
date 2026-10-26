@@ -94,7 +94,7 @@ function frame(now) {
 
     if (averageFrameTime > 24) {
       if (aa > 1) {
-        aa = 1;
+        aa = aa > 1.75 ? 1.5 : 1;
         aaBlockedUntil = cycle + 120;
       } else if (scale > 0.35) {
         scale = Math.max(0.35, scale * 0.85);
@@ -106,7 +106,7 @@ function frame(now) {
         scale = Math.min(1, scale * 1.1);
         resize();
       } else if (aa < 2 && cycle >= aaBlockedUntil) {
-        aa = 2;
+        aa = aa < 1.25 ? 1.5 : 2;
       }
     }
   }

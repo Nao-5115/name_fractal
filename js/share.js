@@ -84,7 +84,8 @@ function closeModal() {
   clearInterval(modalKeep);
 }
 
-function openModal(nodes, autoCloseMs) {
+function openModal(nodes, autoCloseMs, variant) {
+  modalBody.className = variant ? "card " + variant : "card";
   modalBody.replaceChildren(...nodes);
   modal.hidden = false;
   clearTimeout(modalTimer);
@@ -100,6 +101,22 @@ function closeButton(label) {
   const button = el("button", label || "とじる", "sub");
   button.onclick = closeModal;
   return button;
+}
+
+// ---- 名前が空のまま「作る」「画像を保存」を押されたとき ----
+function showNeedName() {
+  const close = el("button", "", "close");
+  close.type = "button";
+  close.setAttribute("aria-label", "とじる");
+  close.onclick = () => {
+    closeModal();
+    nameInput.focus(); // 閉じたら、名前の入力欄にカーソルを戻す
+  };
+  openModal(
+    [close, el("p", "先に名前を入れて「作る」を押してね！")],
+    0,
+    "notice",
+  );
 }
 
 // ---- スマホ側：できあがった画像を見せる（長押しで保存） ----

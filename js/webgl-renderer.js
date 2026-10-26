@@ -115,12 +115,16 @@ const fragmentShaderSource = `precision highp float;
     return col;
   }
 
-  void main() {
+    void main() {
     vec2 p = gl_FragCoord.xy;
     vec3 col;
-    if (aa > 1.5) {
+    if (aa > 1.75) {
+      // 4点（いちばんきれい。重い）
       col = (shade(p + vec2(-.25, -.25)) + shade(p + vec2(.25, -.25))
            + shade(p + vec2(-.25, .25)) + shade(p + vec2(.25, .25))) * .25;
+    } else if (aa > 1.25) {
+      // 2点（斜めの2点で平均。4点の半分の重さ）
+      col = (shade(p + vec2(-.25, -.25)) + shade(p + vec2(.25, .25))) * .5;
     } else {
       col = shade(p);
     }

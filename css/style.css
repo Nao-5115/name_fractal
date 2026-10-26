@@ -348,6 +348,33 @@ input:focus {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+/* ---- 「先に名前を入れてね」のお知らせ（明るいカード）：Figma の pc-5-name ---- */
+.card.notice {
+  width: min(calc(988 * var(--u)), 100%);
+  padding: max(calc(77 * var(--u)), 52px) calc(20 * var(--u))
+    calc(76 * var(--u));
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.card.notice p {
+  font-size: max(18px, calc(50 * var(--u)));
+  line-height: 1.2;
+}
+
+.card.notice .close {
+  top: calc(11 * var(--u));
+  right: calc(21 * var(--u));
+}
+
+/* ✕は明るいカードの上なので、濃い色で太めに */
+.card.notice .close::before,
+.card.notice .close::after {
+  height: max(3px, calc(5 * var(--u)));
+  background: var(--ink);
+}
+
 /* ---- スマホ表示（QRコードから開いたとき）：スマホ用デザインができるまでの仮のもの ---- */
 .vbar {
   display: none;

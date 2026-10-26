@@ -19,12 +19,12 @@ const demos = [
 function make() {
   const name = nameInput.value.trim();
   if (!name) {
-    nameInput.focus();
+    showNeedName();
     return;
   }
-  if (state.demo && !touched) {
-    theme = "auto";
-    shape = "auto";
+  if (state.demo) {
+    showNeedName();
+    return;
   }
   lastInput = performance.now();
   apply(name, kanaInput.value.trim(), false);
