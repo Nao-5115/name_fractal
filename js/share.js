@@ -159,6 +159,8 @@ function showQr() {
   );
 }
 
+document.getElementById("share").onclick = showQr;
+
 // ---- スマホ側：画像をつくって、長押しで保存できるようにする ----
 const vsave = document.getElementById("vsave");
 vsave.onclick = async () => {
