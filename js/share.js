@@ -159,23 +159,51 @@ function showQr() {
   );
 }
 
-document.getElementById("share").onclick = showQr;
-
 // ---- スマホ側：画像をつくって、長押しで保存できるようにする ----
-function showPhoto(dataUrl) {
-  const image = el("img");
-  image.src = dataUrl;
-  image.alt = state.name + " のフラクタル";
+const vsave = document.getElementById("vsave");
+vsave.onclick = async () => {
+  const originalWidth = canvas.width,
+    originalHeight = canvas.height,
+    savedAA = aa;
 
-  const row = el("div", "", "row");
-  row.appendChild(closeButton());
+  vsave.disabled = true;
+  vsave.textContent = "つくっています…";
 
-  openModal([
-    image,
-    el("p", "画像を長押しして「写真に追加」や「画像を保存」を選んでね"),
-    row,
-  ]);
-}
+  try {
+    // フォントの読み込みは最大1.5秒だけ待つ。失敗しても、ほかのフォントで続ける
+    await Promise.race([
+      document.fonts.load('900 40px "Noto Sans JP"').catch(() => {}),
+      new Promise((resolve) => setTimeout(resolve, 1500)),
+    ]);
+
+    canvas.width = 1200;
+    canvas.height = 1500;
+    aa = 1; // スマホでは重くなりすぎないよう、解像度を上げるだけにする
+    draw();
+    const actualShape =
+      Object.values(SHAPES).find((item) => item.t === target.ft)?.label ||
+      SHAPES[shape]?.label;
+    const artwork = composeArtworkForSave(
+      canvas,
+      state.name,
+      state.kana,
+      actualShape,
+      THEMES[theme]?.label,
+    );
+    showPhoto(artwork.toDataURL("image/png"));
+  } catch (error) {
+    // スマホにはコンソールがないので、エラーを画面に出す
+    const row = el("div", "", "row");
+    row.appendChild(closeButton());
+    openModal([el("p", "画像をつくれませんでした：" + error), row]);
+  } finally {
+    aa = savedAA;
+    canvas.width = originalWidth;
+    canvas.height = originalHeight;
+    vsave.disabled = false;
+    vsave.textContent = "画像をつくる";
+  }
+};
 
 async () => {
   await document.fonts.load('900 40px "Noto Sans JP"');
