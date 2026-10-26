@@ -102,6 +102,18 @@ function closeButton(label) {
   return button;
 }
 
+// ---- スマホ側：できあがった画像を見せる（長押しで保存） ----
+function showPhoto(dataUrl) {
+  const image = document.createElement("img");
+  image.src = dataUrl;
+  image.alt = "できあがったフラクタルの画像";
+
+  const row = el("div", "", "row");
+  row.appendChild(closeButton());
+
+  openModal([image, el("p", "画像を長押しして、保存してね"), row]);
+}
+
 modal.addEventListener("click", (event) => {
   if (event.target === modal) closeModal();
 });
@@ -205,32 +217,6 @@ vsave.onclick = async () => {
     vsave.disabled = false;
     vsave.textContent = "画像をつくる";
   }
-};
-
-async () => {
-  await document.fonts.load('900 40px "Noto Sans JP"');
-  const originalWidth = canvas.width,
-    originalHeight = canvas.height,
-    savedAA = aa;
-  canvas.width = 1200;
-  canvas.height = 1500;
-  aa = 1; // スマホでは重くなりすぎないよう、解像度を上げるだけにする
-  draw();
-  const actualShape =
-    Object.values(SHAPES).find((item) => item.t === target.ft)?.label ||
-    SHAPES[shape]?.label;
-  const artwork = composeArtworkForSave(
-    canvas,
-    state.name,
-    state.kana,
-    actualShape,
-    THEMES[theme]?.label,
-  );
-  const dataUrl = artwork.toDataURL("image/png");
-  aa = savedAA;
-  canvas.width = originalWidth;
-  canvas.height = originalHeight;
-  showPhoto(dataUrl);
 };
 
 // ---- 起動：QRコードから開かれたときは、スマホ用の表示にする ----
