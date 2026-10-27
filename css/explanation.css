@@ -50,8 +50,29 @@ a {
 }
 
 .brand-mark {
+  display: grid;
+  flex: 0 0 22px;
+  place-items: center;
+  width: 22px;
+  height: 22px;
   color: var(--accent);
-  font-size: 22px;
+}
+
+.brand-mark svg,
+.star-two svg,
+.recipe-result .fractal-mark svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2.8;
+}
+
+.brand-mark svg {
+  width: 100%;
+  height: 100%;
 }
 
 .back-link,
@@ -453,6 +474,12 @@ code {
   font-size: 40px;
 }
 
+.recipe-result .fractal-mark {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
 .recipe > strong {
   font-weight: 900;
   font-size: 14px;
@@ -610,7 +637,9 @@ a:focus-visible {
   }
 
   .brand-mark {
-    font-size: 18px;
+    flex-basis: 18px;
+    width: 18px;
+    height: 18px;
   }
 
   .back-link {
