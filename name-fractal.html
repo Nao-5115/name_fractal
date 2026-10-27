@@ -59,10 +59,20 @@
       <button id="share" class="sub" type="button">画像を保存</button>
     </div>
 
-    <!-- スマホで開いたとき（QRコードから来たとき）だけ出るボタン -->
+    <!-- QRコードから開いたスマホ向けの操作バー -->
     <div class="vbar">
-      <button id="vsave">画像をつくる</button>
-      <a class="link-btn" href="explanation.html">フラクタルとは？</a>
+      <button class="vbar-action" id="vsave" type="button">
+        <img src="icons/add_photo.png" alt="" />
+        <span>画像を保存</span>
+      </button>
+      <button class="vbar-action" id="vnew" type="button">
+        <img src="icons/add_box.png" alt="" />
+        <span>新しくつくる</span>
+      </button>
+      <a class="vbar-action" href="explanation.html">
+        <img src="icons/info.svg" alt="" />
+        <span>フラクタルとは</span>
+      </a>
     </div>
 
     <!-- QRコードや保存用の画像を出すウィンドウ -->

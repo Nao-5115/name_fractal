@@ -21,9 +21,10 @@
   --u: min(calc(100vw / 1920), calc(100vh / 1080));
 }
 
-/* QRコードから開いたスマホ画面：スマホ用デザインができるまで、固定の小さめサイズにしておく */
+/* QRコードから開いたスマホ画面 */
 body.viewer {
-  --u: 0.5px;
+  --u: 1px;
+  background: #6155f5;
 }
 
 body {
@@ -375,32 +376,86 @@ input:focus {
   background: var(--ink);
 }
 
-/* ---- スマホ表示（QRコードから開いたとき）：スマホ用デザインができるまでの仮のもの ---- */
+/* ---- QRコードから開いたスマホのホーム ---- */
 .vbar {
   display: none;
 }
 
-body.viewer .dock,
-body.viewer #prm {
+body.viewer .dock {
   display: none;
+}
+
+body.viewer canvas {
+  height: calc(100dvh - 130px - env(safe-area-inset-bottom, 0px));
+  background: #6155f5;
+}
+
+body.viewer .info {
+  top: 14px;
+  left: 15px;
+  width: calc(100% - 30px);
+  max-width: 363px;
+  min-height: 213px;
+  padding: 0 8px;
+  border: 2px solid var(--ink);
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.2;
+  -webkit-text-stroke: 1px var(--ink);
+}
+
+body.viewer .info b {
+  font-size: clamp(25px, 8.97vw, 35px);
+  line-height: 1.2;
+}
+
+body.viewer #prm {
+  display: block;
+  font-size: 16px;
 }
 
 body.viewer .vbar {
   position: fixed;
   right: 0;
-  bottom: 28px;
+  bottom: 0;
   left: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  padding: 0 12px;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: calc(130px + env(safe-area-inset-bottom, 0px));
+  padding: 9px 4px env(safe-area-inset-bottom, 0px);
+  background: var(--ink);
 }
 
-body.viewer .vbar button {
-  min-height: 48px;
-  padding: 0 22px;
-  font-size: 18px;
+body.viewer .vbar-action {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0 1px;
+  border: 0;
+  background: transparent;
+  color: var(--white);
+  font: inherit;
+  font-size: clamp(12px, 4.62vw, 18px);
+  font-weight: 900;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.viewer .vbar-action img {
+  display: block;
+  width: 59px;
+  height: 56px;
+  margin-bottom: 0;
+  object-fit: contain;
 }
 
 .link-btn {
@@ -415,4 +470,60 @@ body.viewer .vbar button {
   font-weight: 900;
   text-decoration: none;
   white-space: nowrap;
+}
+
+body.viewer .card.viewer-form {
+  width: min(360px, 100%);
+  padding: 30px 22px 24px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body.viewer .viewer-form h2 {
+  margin: 0 0 20px;
+  font-size: 24px;
+}
+
+.viewer-form .viewer-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.viewer-form input {
+  width: 100%;
+  min-height: 48px;
+  border-color: var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.viewer-form input::placeholder {
+  color: #596779;
+}
+
+.viewer-form .viewer-submit {
+  width: 100%;
+  margin-top: 18px;
+}
+
+@media (max-height: 650px) {
+  body.viewer .info {
+    min-height: 0;
+  }
+
+  body.viewer .vbar {
+    height: calc(108px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.viewer canvas {
+    height: calc(100dvh - 108px - env(safe-area-inset-bottom, 0px));
+  }
+
+  body.viewer .vbar-action img {
+    width: 46px;
+    height: 46px;
+  }
 }

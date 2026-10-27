@@ -199,7 +199,7 @@ vsave.onclick = async () => {
     savedAA = aa;
 
   vsave.disabled = true;
-  vsave.textContent = "つくっています…";
+  vsave.querySelector("span").textContent = "作成中…";
 
   try {
     // フォントの読み込みは最大1.5秒だけ待つ。失敗しても、ほかのフォントで続ける
@@ -233,14 +233,60 @@ vsave.onclick = async () => {
     canvas.width = originalWidth;
     canvas.height = originalHeight;
     vsave.disabled = false;
-    vsave.textContent = "画像をつくる";
+    vsave.querySelector("span").textContent = "画像を保存";
   }
+};
+
+// ---- スマホ側：別の名前で新しい作品をつくる ----
+document.getElementById("vnew").onclick = () => {
+  const title = el("h2", "新しくつくる");
+  const form = el("form", "", "viewer-fields");
+  const newName = el("input");
+  newName.type = "text";
+  newName.name = "name";
+  newName.maxLength = 16;
+  newName.placeholder = "名前";
+  newName.setAttribute("aria-label", "名前");
+  newName.required = true;
+  newName.autocomplete = "off";
+
+  const newKana = el("input");
+  newKana.type = "text";
+  newKana.name = "kana";
+  newKana.maxLength = 32;
+  newKana.placeholder = "ふりがな（なくてもOK）";
+  newKana.setAttribute("aria-label", "ふりがな（なくてもOK）");
+  newKana.autocomplete = "off";
+
+  const submit = el("button", "作る", "viewer-submit");
+  submit.type = "submit";
+  form.append(newName, newKana, submit);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = newName.value.trim();
+    if (!name) {
+      newName.focus();
+      return;
+    }
+    nameInput.value = name;
+    kanaInput.value = newKana.value.trim();
+    shape = "auto";
+    theme = "auto";
+    touched = true;
+    lastInput = performance.now();
+    apply(nameInput.value, kanaInput.value, false);
+    closeModal();
+  });
+
+  openModal([title, form], 0, "viewer-form");
+  newName.focus();
 };
 
 // ---- 起動：QRコードから開かれたときは、スマホ用の表示にする ----
 const shared = readShared();
 if (shared) {
   document.body.classList.add("viewer");
+  resize(); // viewer用にcanvasの表示領域が変わった後のサイズへ合わせる
   theme = shared.theme;
   shape = shared.shape;
   touched = true;

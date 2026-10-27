@@ -70,8 +70,9 @@ let cycle = 0,
 
 function resize() {
   const ratio = pixelRatio() * scale;
-  canvas.width = Math.max(2, Math.floor(innerWidth * ratio));
-  canvas.height = Math.max(2, Math.floor(innerHeight * ratio));
+  const bounds = canvas.getBoundingClientRect();
+  canvas.width = Math.max(2, Math.floor(bounds.width * ratio));
+  canvas.height = Math.max(2, Math.floor(bounds.height * ratio));
 }
 
 addEventListener("resize", resize);
