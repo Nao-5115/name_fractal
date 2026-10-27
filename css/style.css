@@ -398,7 +398,7 @@ body.viewer .info {
   padding: 0;
   border: 0;
   color: var(--white);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.2;
   -webkit-text-stroke: 1.25px var(--ink);
   paint-order: stroke fill;
@@ -410,8 +410,13 @@ body.viewer .info {
 }
 
 body.viewer .info b {
-  font-size: clamp(25px, 8.97vw, 35px);
-  line-height: 1.36;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+body.viewer .info .title-name,
+body.viewer .info .title-fractal {
+  display: block;
 }
 
 body.viewer.is-creating .info,
@@ -422,7 +427,7 @@ body.viewer.is-saving .info {
 
 body.viewer #prm {
   display: block;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 body.viewer .vbar {

@@ -86,8 +86,18 @@ function apply(name, kana, demo) {
   if (!current) current = JSON.parse(JSON.stringify(target));
 
   const [real, imaginary] = target.c;
-  document.getElementById("ttl").textContent =
-    "「" + name + "」のフラクタル" + (demo ? "（デモ）" : "");
+  const title = document.getElementById("ttl");
+  const nameLine = document.createElement("span");
+  nameLine.className = "title-name";
+  nameLine.textContent = name;
+  const fractalLine = document.createElement("span");
+  fractalLine.className = "title-fractal";
+  fractalLine.textContent = "のフラクタル" + (demo ? "（デモ）" : "");
+  if (document.body.classList.contains("viewer")) {
+    title.replaceChildren(nameLine, fractalLine);
+  } else {
+    title.textContent = "「" + name + "」のフラクタル" + (demo ? "（デモ）" : "");
+  }
   document.getElementById("prm").innerHTML =
     (isShip ? "見ている場所 = " : "c = ") +
     real.toFixed(3) +
