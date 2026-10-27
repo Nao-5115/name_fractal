@@ -15,25 +15,19 @@ const demos = [
   ["みお", ""],
 ];
 
-// ---- 「つくる」 ----
+// ---- 「作る」 ----
 function make() {
   const name = nameInput.value.trim();
-  console.log(
-    "make():",
-    JSON.stringify(nameInput.value),
-    document.querySelectorAll("#name").length,
-  );
   if (!name) {
     showNeedName();
     return;
   }
-  if (state.demo) {
-    showNeedName();
-    return;
+  if (state.demo && !touched) {
+    theme = "auto";
+    shape = "auto";
   }
   lastInput = performance.now();
   apply(name, kanaInput.value.trim(), false);
-  console.log("apply のあと:", state.demo, state.name);
 }
 
 document.getElementById("go").onclick = make;
