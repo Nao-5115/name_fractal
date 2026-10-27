@@ -105,6 +105,7 @@ function closeButton(label) {
 
 // ---- 名前が空のまま「作る」「画像を保存」を押されたとき ----
 function showNeedName() {
+  console.trace("showNeedName が呼ばれた");
   const close = el("button", "", "close");
   close.type = "button";
   close.setAttribute("aria-label", "とじる");

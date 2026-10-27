@@ -18,6 +18,11 @@ const demos = [
 // ---- 「つくる」 ----
 function make() {
   const name = nameInput.value.trim();
+  console.log(
+    "make():",
+    JSON.stringify(nameInput.value),
+    document.querySelectorAll("#name").length,
+  );
   if (!name) {
     showNeedName();
     return;
@@ -28,6 +33,7 @@ function make() {
   }
   lastInput = performance.now();
   apply(name, kanaInput.value.trim(), false);
+  console.log("apply のあと:", state.demo, state.name);
 }
 
 document.getElementById("go").onclick = make;
