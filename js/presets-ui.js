@@ -89,10 +89,16 @@ function apply(name, kana, demo) {
   const title = document.getElementById("ttl");
   const nameLine = document.createElement("span");
   nameLine.className = "title-name";
-  nameLine.textContent = name;
+  nameLine.textContent = "「" + name + "」";
   const fractalLine = document.createElement("span");
   fractalLine.className = "title-fractal";
-  fractalLine.textContent = "のフラクタル" + (demo ? "（デモ）" : "");
+  fractalLine.append("のフラクタル");
+  if (demo) {
+    const demoLabel = document.createElement("span");
+    demoLabel.className = "title-demo";
+    demoLabel.textContent = "（デモ）";
+    fractalLine.append(demoLabel);
+  }
   if (document.body.classList.contains("viewer")) {
     title.replaceChildren(nameLine, fractalLine);
   } else {

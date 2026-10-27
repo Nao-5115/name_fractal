@@ -393,8 +393,8 @@ body.viewer canvas {
 body.viewer .info {
   top: 14px;
   left: 15px;
-  width: min(271px, calc(100% - 30px));
-  min-height: 161px;
+  width: min(363px, calc(100% - 30px));
+  min-height: 213px;
   padding: 0;
   border: 0;
   color: var(--white);
@@ -419,10 +419,8 @@ body.viewer .info .title-fractal {
   display: block;
 }
 
-body.viewer.is-creating .info,
-body.viewer.is-saving .info {
-  width: min(363px, calc(100% - 30px));
-  min-height: 213px;
+body.viewer .info .title-demo {
+  white-space: nowrap;
 }
 
 body.viewer #prm {
