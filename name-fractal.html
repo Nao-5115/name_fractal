@@ -65,7 +65,13 @@
         <img src="icons/add_photo.png" alt="" />
         <span>画像を保存</span>
       </button>
-      <button class="vbar-action" id="vnew" type="button">
+      <button
+        class="vbar-action"
+        id="vnew"
+        type="button"
+        aria-expanded="false"
+        aria-controls="createPanel"
+      >
         <img src="icons/add_box.png" alt="" />
         <span>新しくつくる</span>
       </button>
@@ -74,6 +80,9 @@
         <span>フラクタルとは</span>
       </a>
     </div>
+
+    <!-- スマホ用の新規作成パネル。デスクトップ用の入力欄と候補をここへ移して使う -->
+    <div class="create-panel" id="createPanel" hidden></div>
 
     <!-- QRコードや保存用の画像を出すウィンドウ -->
     <div class="modal" id="modal" hidden>

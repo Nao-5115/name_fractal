@@ -80,12 +80,15 @@ function el(tag, text, className) {
 
 function closeModal() {
   modal.hidden = true;
+  modal.classList.remove("photo-modal");
+  document.body.classList.remove("is-saving");
   clearTimeout(modalTimer);
   clearInterval(modalKeep);
 }
 
 function openModal(nodes, autoCloseMs, variant) {
   modalBody.className = variant ? "card " + variant : "card";
+  modal.classList.toggle("photo-modal", variant === "viewer-photo");
   modalBody.replaceChildren(...nodes);
   modal.hidden = false;
   clearTimeout(modalTimer);
@@ -126,10 +129,17 @@ function showPhoto(dataUrl) {
   image.src = dataUrl;
   image.alt = "できあがったフラクタルの画像";
 
-  const row = el("div", "", "row");
-  row.appendChild(closeButton());
+  const close = el("button", "", "close");
+  close.type = "button";
+  close.setAttribute("aria-label", "とじる");
+  close.onclick = closeModal;
 
-  openModal([image, el("p", "画像を長押しして、保存してね"), row]);
+  document.body.classList.add("is-saving");
+  openModal(
+    [close, image, el("p", "画像を長押しして\n保存してね！")],
+    0,
+    "viewer-photo",
+  );
 }
 
 modal.addEventListener("click", (event) => {
@@ -194,6 +204,11 @@ document.getElementById("share").onclick = showQr;
 // ---- スマホ側：画像をつくって、長押しで保存できるようにする ----
 const vsave = document.getElementById("vsave");
 vsave.onclick = async () => {
+  lastInput = performance.now();
+  createPanel.hidden = true;
+  vnew.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("is-creating");
+  closeMenus();
   const originalWidth = canvas.width,
     originalHeight = canvas.height,
     savedAA = aa;
@@ -237,59 +252,38 @@ vsave.onclick = async () => {
   }
 };
 
-// ---- スマホ側：別の名前で新しい作品をつくる ----
-document.getElementById("vnew").onclick = () => {
-  const title = el("h2", "新しくつくる");
-  const form = el("form", "", "viewer-fields");
-  const newName = el("input");
-  newName.type = "text";
-  newName.name = "name";
-  newName.maxLength = 16;
-  newName.placeholder = "名前";
-  newName.setAttribute("aria-label", "名前");
-  newName.required = true;
-  newName.autocomplete = "off";
+// ---- スマホ側：画面下の入力欄を使って新しい作品をつくる ----
+const createPanel = document.getElementById("createPanel");
+const vnew = document.getElementById("vnew");
+const shapeMenu = document.getElementById("shapeBtn").closest(".menu");
+const themeMenu = document.getElementById("themeBtn").closest(".menu");
+shapeMenu.classList.add("viewer-shape-menu");
+themeMenu.classList.add("viewer-theme-menu");
 
-  const newKana = el("input");
-  newKana.type = "text";
-  newKana.name = "kana";
-  newKana.maxLength = 32;
-  newKana.placeholder = "ふりがな（なくてもOK）";
-  newKana.setAttribute("aria-label", "ふりがな（なくてもOK）");
-  newKana.autocomplete = "off";
-
-  const submit = el("button", "作る", "viewer-submit");
-  submit.type = "submit";
-  form.append(newName, newKana, submit);
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const name = newName.value.trim();
-    if (!name) {
-      newName.focus();
-      return;
-    }
-    nameInput.value = name;
-    kanaInput.value = newKana.value.trim();
-    shape = "auto";
-    theme = "auto";
-    touched = true;
-    lastInput = performance.now();
-    apply(nameInput.value, kanaInput.value, false);
-    closeModal();
-  });
-
-  openModal([title, form], 0, "viewer-form");
-  newName.focus();
+vnew.onclick = () => {
+  const open = createPanel.hidden;
+  createPanel.hidden = !open;
+  vnew.setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("is-creating", open);
+  lastInput = performance.now();
+  if (!open) closeMenus();
 };
 
 // ---- 起動：QRコードから開かれたときは、スマホ用の表示にする ----
 const shared = readShared();
 if (shared) {
   document.body.classList.add("viewer");
+  createPanel.replaceChildren(
+    nameInput,
+    kanaInput,
+    shapeMenu,
+    themeMenu,
+    document.getElementById("go"),
+  );
   resize(); // viewer用にcanvasの表示領域が変わった後のサイズへ合わせる
   theme = shared.theme;
   shape = shared.shape;
   touched = true;
-  lastInput = Infinity; // 放置デモに切り替わらないようにする
+  lastInput = performance.now();
   apply(shared.name, shared.kana, false);
 }

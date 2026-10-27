@@ -42,9 +42,31 @@ for (const input of [nameInput, kanaInput]) {
 }
 
 // ---- 放置中のデモ表示（45秒放置 → 8秒ごとに名前・色・形を切り替え） ----
+function resetViewerDraft() {
+  if (!document.body.classList.contains("viewer")) return;
+
+  nameInput.value = "";
+  kanaInput.value = "";
+  const panel = document.getElementById("createPanel");
+  const newButton = document.getElementById("vnew");
+  if (panel) panel.hidden = true;
+  if (newButton) newButton.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("is-creating");
+
+  for (const button of document.querySelectorAll(".menu-btn")) {
+    button.setAttribute("aria-expanded", "false");
+  }
+  for (const options of document.querySelectorAll(".options")) {
+    options.hidden = true;
+  }
+}
+
+addEventListener("pagehide", resetViewerDraft);
+
 setInterval(() => {
   const now = performance.now();
   if (now - lastInput > 45000 && now - lastDemo > 8000) {
+    resetViewerDraft();
     const [name, kana] = demos[demoIndex++ % demos.length];
     lastDemo = now;
     const otherThemes = themeKeys.filter((key) => key !== theme);
