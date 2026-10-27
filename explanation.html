@@ -110,5 +110,14 @@
   </main>
 
   <footer><a href="name-fractal.html">Name Fractal</a><span>ひとつのルールから、無限のかたちへ。</span></footer>
+  <script>
+    const homeUrl = new URL("name-fractal.html", location.href);
+    homeUrl.searchParams.set("view", "mobile");
+    const currentFractal = new URLSearchParams(location.search).get("q");
+    if (currentFractal) homeUrl.searchParams.set("q", currentFractal);
+    for (const link of document.querySelectorAll('a[href="name-fractal.html"]')) {
+      link.href = homeUrl.href;
+    }
+  </script>
 </body>
 </html>

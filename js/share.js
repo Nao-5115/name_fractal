@@ -269,9 +269,24 @@ vnew.onclick = () => {
   if (!open) closeMenus();
 };
 
+// 「フラクタルとは」から戻るとき、スマホの現在の作品を引き継ぐ
+const vabout = document.getElementById("vabout");
+vabout.addEventListener("click", () => {
+  const params = new URLSearchParams();
+  params.set("view", "mobile");
+  if (!state.demo) {
+    params.set(
+      "q",
+      toBase64Url([state.name, state.kana, shape, theme].join("\n")),
+    );
+  }
+  vabout.href = "explanation.html?" + params.toString();
+});
+
 // ---- 起動：QRコードから開かれたときは、スマホ用の表示にする ----
 const shared = readShared();
-if (shared) {
+const mobileView = new URLSearchParams(location.search).get("view") === "mobile";
+if (shared || mobileView) {
   document.body.classList.add("viewer");
   createPanel.replaceChildren(
     nameInput,
@@ -281,9 +296,13 @@ if (shared) {
     document.getElementById("go"),
   );
   resize(); // viewer用にcanvasの表示領域が変わった後のサイズへ合わせる
-  theme = shared.theme;
-  shape = shared.shape;
-  touched = true;
   lastInput = performance.now();
-  apply(shared.name, shared.kana, false);
+  if (shared) {
+    theme = shared.theme;
+    shape = shared.shape;
+    touched = true;
+    apply(shared.name, shared.kana, false);
+  } else {
+    apply(state.name, state.kana, state.demo);
+  }
 }
