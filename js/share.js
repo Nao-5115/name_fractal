@@ -8,7 +8,8 @@
 // ★ ここに、ネットに公開したアプリのURLを入れる
 //   例：'https://xxxx.netlify.app/name-fractal.html'
 //   空のままなら、いま開いているURLを使う（http / https で開いているときだけ）
-const SHARE_BASE_URL = "https://name-fractal.ooowwwhiro.workers.dev";
+const SHARE_BASE_URL =
+  "https://name-fractal.ooowwwhiro.workers.dev/name-fractal.html";
 
 // ---- 名前などを、短くて安全な文字列にする（URLに入れるため） ----
 function toBase64Url(text) {
