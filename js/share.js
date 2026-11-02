@@ -8,8 +8,7 @@
 // ★ ここに、ネットに公開したアプリのURLを入れる
 //   例：'https://xxxx.netlify.app/name-fractal.html'
 //   空のままなら、いま開いているURLを使う（http / https で開いているときだけ）
-const SHARE_BASE_URL =
-  "https://fastidious-kelpie-c0725e.netlify.app/name-fractal.html";
+const SHARE_BASE_URL = "https://name-fractal.ooowwwhiro.workers.dev";
 
 // ---- 名前などを、短くて安全な文字列にする（URLに入れるため） ----
 function toBase64Url(text) {
@@ -285,7 +284,8 @@ vabout.addEventListener("click", () => {
 
 // ---- 起動：QRコードから開かれたときは、スマホ用の表示にする ----
 const shared = readShared();
-const mobileView = new URLSearchParams(location.search).get("view") === "mobile";
+const mobileView =
+  new URLSearchParams(location.search).get("view") === "mobile";
 if (shared || mobileView) {
   document.body.classList.add("viewer");
   createPanel.replaceChildren(
