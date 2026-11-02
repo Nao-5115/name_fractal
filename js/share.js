@@ -176,6 +176,8 @@ function showQr() {
   // 余白は CSS の padding でとるので、QR自体の margin は 0
   box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
 
+  const urlText = el("p", url, "qr-url");
+
   const close = el("button", "", "close");
   close.type = "button";
   close.setAttribute("aria-label", "とじる");
@@ -194,8 +196,9 @@ function showQr() {
   );
 
   openModal(
-    [close, el("h2", "QRコードを読み取って保存"), box, message, hint],
+    [close, el("h2", "QRコードを読み取って保存"), box, urlText, message, hint],
     120000,
+    "qr-modal",
   );
 }
 

@@ -313,8 +313,29 @@ input:focus {
   padding: 0 calc(86 * var(--u));
 }
 
-.card .qr-message + .qr-message {
-  margin-top: calc(41 * var(--u));
+.card.qr-modal {
+  padding-top: calc(41 * var(--u));
+}
+
+.card.qr-modal h2 {
+  margin-bottom: calc(20 * var(--u));
+}
+
+.card.qr-modal .qr {
+  width: calc(500 * var(--u));
+  margin-bottom: calc(40 * var(--u));
+  padding: calc(25 * var(--u));
+}
+
+.card.qr-modal .qr-url {
+  margin: 0 auto calc(24 * var(--u));
+  font-size: max(14px, calc(26 * var(--u)));
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.card.qr-modal .qr-message + .qr-message {
+  margin-top: calc(16 * var(--u));
 }
 
 /* ✕ボタン */
