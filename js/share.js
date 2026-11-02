@@ -176,7 +176,42 @@ function showQr() {
   // 余白は CSS の padding でとるので、QR自体の margin は 0
   box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
 
-  const urlText = el("p", url, "qr-url");
+  const urlText = el("p", "", "qr-url");
+  urlText.append(el("span", url));
+  const copyButton = el("button", "URLをコピー", "qr-copy");
+  copyButton.type = "button";
+  copyButton.onclick = async () => {
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        copied = true;
+      }
+    } catch (error) {
+      // Clipboard API が使えない場合は、下の方法でコピーを試す。
+    }
+    if (!copied) {
+      const temporaryInput = document.createElement("textarea");
+      temporaryInput.value = url;
+      temporaryInput.style.position = "fixed";
+      temporaryInput.style.opacity = "0";
+      document.body.append(temporaryInput);
+      try {
+        temporaryInput.select();
+        copied = document.execCommand("copy");
+      } catch (error) {
+        copied = false;
+      } finally {
+        temporaryInput.remove();
+      }
+    }
+    if (copied) {
+      copyButton.textContent = "コピーしました";
+    } else {
+      copyButton.textContent = "コピーできませんでした";
+    }
+  };
+  urlText.append(copyButton);
 
   const close = el("button", "", "close");
   close.type = "button";

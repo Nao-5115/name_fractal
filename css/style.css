@@ -334,6 +334,17 @@ input:focus {
   overflow-wrap: anywhere;
 }
 
+.card.qr-modal .qr-copy {
+  display: inline-block;
+  min-height: 0;
+  margin-left: calc(10 * var(--u));
+  padding: calc(4 * var(--u)) calc(10 * var(--u));
+  border-width: 2px;
+  font-size: max(12px, calc(18 * var(--u)));
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 .card.qr-modal .qr-message + .qr-message {
   margin-top: calc(16 * var(--u));
 }
