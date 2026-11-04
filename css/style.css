@@ -340,10 +340,24 @@ input:focus {
   flex: 1;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   text-align: left;
-  text-overflow: ellipsis;
   scrollbar-width: thin;
+  scrollbar-color: #24415c transparent;
+}
+
+.card.qr-modal .qr-url-scroll::-webkit-scrollbar {
+  height: max(4px, calc(6 * var(--u)));
+}
+
+.card.qr-modal .qr-url-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card.qr-modal .qr-url-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #24415c;
 }
 
 .card.qr-modal .qr-copy {
