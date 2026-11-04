@@ -220,20 +220,20 @@ function showQr() {
   close.setAttribute("aria-label", "とじる");
   close.onclick = closeModal;
 
-  const message = el(
-    "p",
-    "「" + state.name + "」のフラクタルがスマホに表示されるよ",
-    "qr-message",
-  );
-  const hint = el("p", "", "qr-message");
-  hint.append(
-    "表示されたら、",
+  const message = el("p", "", "qr-message");
+  message.append(
+    "「" + state.name + "」",
     document.createElement("br"),
-    "「画像を保存」を押して保存しよう！",
+    "のフラクタルがスマホに表示されるよ",
+    document.createElement("br"),
+    document.createElement("br"),
+    "表示されたら、「画像を保存」を押して",
+    document.createElement("br"),
+    "保存しよう！",
   );
 
   openModal(
-    [close, el("h2", "QRコードを読み取って保存"), box, urlText, message, hint],
+    [close, el("h2", "QRコードを読み取って保存"), box, urlText, message],
     120000,
     "qr-modal",
   );
