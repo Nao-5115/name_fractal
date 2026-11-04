@@ -176,8 +176,10 @@ function showQr() {
   // 余白は CSS の padding でとるので、QR自体の margin は 0
   box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
 
-  const urlText = el("p", "", "qr-url");
-  urlText.append(el("span", url));
+  const urlText = el("div", "", "qr-url");
+  const urlScroller = el("div", "", "qr-url-scroll");
+  urlScroller.append(el("span", url));
+  urlText.append(urlScroller);
   const copyButton = el("button", "URLをコピー", "qr-copy");
   copyButton.type = "button";
   copyButton.onclick = async () => {

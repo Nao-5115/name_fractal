@@ -328,21 +328,37 @@ input:focus {
 }
 
 .card.qr-modal .qr-url {
-  margin: 0 auto calc(24 * var(--u));
-  font-size: max(14px, calc(26 * var(--u)));
-  line-height: 1.35;
-  overflow-wrap: anywhere;
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  margin: 0 auto calc(30 * var(--u));
+  font-size: max(14px, calc(30 * var(--u)));
+  line-height: 1.37;
+}
+
+.card.qr-modal .qr-url-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+  scrollbar-width: thin;
 }
 
 .card.qr-modal .qr-copy {
   display: inline-block;
+  flex: none;
   min-height: 0;
-  margin-left: calc(10 * var(--u));
   padding: calc(4 * var(--u)) calc(10 * var(--u));
   border-width: 2px;
-  font-size: max(12px, calc(18 * var(--u)));
+  font-size: max(12px, calc(25 * var(--u)));
   vertical-align: middle;
   white-space: nowrap;
+}
+
+.card.qr-modal .qr-message {
+  font-size: max(16px, calc(35 * var(--u)));
 }
 
 .card.qr-modal .qr-message + .qr-message {
